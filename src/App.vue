@@ -2,9 +2,9 @@
   <div id="app">
     <header class="p-3 d-flex justify-content-between">
       <img src="@/assets/spotify-logo.png" alt="" />
-      <select-app @search="filterResult" />
+      <select-app @selection="filterResult" :genreList="genreList"/>
     </header>
-    <disc-list :discList="genreList" :discLoad="discLoad" />
+    <disc-list :discList="filteredList" :discLoad="discLoad"/>
   </div>
 </template>
 
@@ -23,7 +23,8 @@ export default {
     return {
       discList: [],
       discLoad: true,
-      genreList: [],
+      filteredList: [],
+      genreList: []
     };
   },
   mounted() {
@@ -31,22 +32,30 @@ export default {
       .get("https://flynn.boolean.careers/exercises/api/array/music")
       .then((response) => {
         this.discList = response.data.response;
-        this.genreList = response.data.response;
+        this.filteredList = response.data.response;
         this.discLoad = false;
+        this.getGenreList();
       });
   },
   methods: {
     filterResult(genreSelection) {
       if (genreSelection === "all") {
-        this.genreList = this.discList;
+        this.filteredList = this.discList;
       } else {
-        this.genreList = this.discList.filter((disc) => {
+        this.filteredList = this.discList.filter((disc) => {
           return disc.genre.toLowerCase().includes(genreSelection);
         });
       }
     },
-  },
-};
+    getGenreList(){
+        this.genreList = this.discList.filter((disc)=> {
+        if (!this.genreList.includes(disc.genre)){
+        return this.genreList.push(disc.genre);
+        }
+      });
+    }
+  }
+}
 </script>
 
 <style lang="scss">

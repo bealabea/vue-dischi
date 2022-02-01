@@ -1,12 +1,9 @@
 <template>
     <div class="text-center">
         <label for="genre" class="px-3">FILTRA PER GENERE</label>
-        <select name="genre" id="genre" v-model="selected" @change="$emit('search', selected)">
+        <select name="genre" id="genre" v-model="selected" @change="$emit('selection', selected)">
             <option value="all">All</option>
-            <option value="rock">Rock</option>
-            <option value="pop">Pop</option>
-            <option value="jazz">Jazz</option>
-            <option value="metal">Metal</option>
+            <option v-for="(disc, index) in genreList" :key="index" :value="disc.genre.toLowerCase()">{{disc.genre}}</option> 
         </select>   
     </div>
 </template>
@@ -15,11 +12,12 @@
 export default {
     props: {
     discList: Array,
-    genreList: Array
+    filteredList: Array,
+    genreList: Array,
   },
   data() {
     return {
-      selected:''
+      selected:'all'
     }
   }
 }
