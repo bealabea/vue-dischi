@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <disc-list :discList="discList"/>
+    <disc-list :discList="discList" :discLoad="discLoad"/>
   </div>
 </template>
 
@@ -15,13 +15,15 @@ export default {
   },
   data(){
     return {
-      discList: []
+      discList: [],
+      discLoad: true,
     }
   },
   mounted(){
     axios.get('https://flynn.boolean.careers/exercises/api/array/music')
     .then((response) => {
-      this.discList = response.data.response
+      this.discList = response.data.response;
+      this.discLoad = false;
     })
   }
 }
