@@ -43,7 +43,7 @@ export default {
         this.filteredList = this.discList;
       } else {
         this.filteredList = this.discList.filter((disc) => {
-          return disc.genre.toLowerCase().includes(genreSelection);
+          return disc.genre.toLowerCase() === genreSelection;
         });
       }
     },
